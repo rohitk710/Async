@@ -2,6 +2,8 @@ import sys
 
 config(channel is fifo, clock is lamport)
 
+#test change
+
 # Defininig process here: class p (process): followed by process body
 class P(process):
 	# setup is a special method for initially setting up the data in the process before execution starts. Kinda like method constructor
