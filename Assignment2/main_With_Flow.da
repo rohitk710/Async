@@ -1,0 +1,74 @@
+import sys
+
+config(channnel is fifo, clock is lamport)
+
+class P(process):
+    def setup(s:set, nrequests:int):
+        self.q = set();
+
+    # Step1: To request the resource, process Pi sends the message Tm:Pi requests resource to every other process, 
+    # and puts that message on its request queue, where Tm is the timestamp of the message.
+    
+    def request(c):
+        output('Request resource message sent from:' + str(self) +' with timestamp: '+ str(c))
+        send(('request', c, self), to= s)
+        q.add(('request', c , self))
+        output("Queue of process: "+ str(self) + " is: "+ str(q))
+
+        
+
+    def receive(msg= ('request', c2, p)):
+        -- receive
+        output('Request resource message received at:' + str(p) +' which had timestamp: '+ str(c2))
+        q.add(('request', c2, p))
+        output("Queue of process: "+ str(p) + " is: "+ str(q))
+        send(('ack', logical_clock(), self), to= p)
+
+    def cs(c):
+        -- cs
+        await(each(('request', c2, p)in q, has= (c2,p)==(c, self) or (c,self) < (c2, p)) and each(p in s, has= some(received(('ack', c2, _p)), has= c2 > c)))
+        output('In CS of process' + str(self))
+
+
+    def release(c):
+        -- release
+        output('Releasing resource :' + str(self) + ' which had timestamp: ' + str(c))
+        q.remove(('request', c, self))
+        output("Queue of process: "+ str(self) + " is: "+ str(q))
+        send(('release', logical_clock(), self), to= s)
+
+    def receive(msg= ('release', _, p)):
+        for x in setof(('request', c, p), ('request', c, _p) in q):
+            q.remove(x)
+            output("Queue of process: "+ str(p) + " is: "+ str(q))
+            break
+
+    def run():
+        for i in range(nrequests):
+            output("Itr: " + str(i))
+            --  request
+            c = logical_clock()
+            request(c)
+            cs(c)
+            release(c)
+
+
+        send(('done', self), to= parent())
+        await(received(('done',), from_=parent()))
+        output('terminating')
+
+
+def main():
+    nprocs = int(sys.argv[1]) if len(sys.argv) > 1 else 10
+    nrequests = int(sys.argv[2]) if len(sys.argv) > 2 else 10
+    nruns = int(sys.argv[3]) if len(sys.argv) > 3 else 10
+    nparamvalues = int(sys.argv[4]) if len(sys.argv) > 4 else 10
+    nreps = int(sys.argv[5]) if len(sys.argv) > 5 else 10
+
+    #for j in range(nreps):
+    #    for i in range(nruns):
+    ps = new(P, num=nprocs)
+    for p in ps: setup(p, (ps-{p}, nrequests))
+    start(ps)
+    await(each(p in ps, has=received(('done', p))))
+    send(('done',), to=ps)
