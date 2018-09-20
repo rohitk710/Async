@@ -39,6 +39,7 @@ class P(process):
 
     def receive(msg= ('release', _, p)):
         for x in setof(('request', c, p), ('request', c, _p) in q):
+            output("Removing : "+ str(x))
             q.remove(x)
             output("Queue of process: "+ str(p) + " is: "+ str(q))
             break
@@ -48,8 +49,7 @@ class P(process):
             --  request
             c = logical_clock()
             request(c)
-            cs(c)
-            release(c)
+
 
         send(('done', self), to= parent())
         await(received(('done',), from_=parent()))
@@ -59,14 +59,9 @@ class P(process):
 def main():
     nprocs = int(sys.argv[1]) if len(sys.argv) > 1 else 10
     nrequests = int(sys.argv[2]) if len(sys.argv) > 2 else 10
-    nruns = int(sys.argv[3]) if len(sys.argv) > 3 else 10
-    nparamvalues = int(sys.argv[4]) if len(sys.argv) > 4 else 10
-    nreps = int(sys.argv[5]) if len(sys.argv) > 5 else 10
 
-    for j in range(nreps):
-        for i in range(nruns):
-            ps = new(P, num=nprocs)
-            for p in ps: setup(p, (ps-{p}, nrequests))
-            start(ps)
-            await(each(p in ps, has=received(('done', p))))
-            send(('done',), to=ps)
+    ps = new(P, num=nprocs)
+    for p in ps: setup(p, (ps-{p}, nrequests))
+    start(ps)
+    await(each(p in ps, has=received(('done', p))))
+    send(('done',), to=ps)
