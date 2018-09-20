@@ -3,11 +3,11 @@ import da
 PatternExpr_224 = da.pat.TuplePattern([da.pat.ConstantPattern('request'), da.pat.FreePattern('c2'), da.pat.FreePattern('p')])
 PatternExpr_310 = da.pat.TuplePattern([da.pat.ConstantPattern('ack'), da.pat.FreePattern('c2'), da.pat.BoundPattern('_BoundPattern314_')])
 PatternExpr_384 = da.pat.TuplePattern([da.pat.ConstantPattern('release'), da.pat.FreePattern(None), da.pat.FreePattern('p')])
-PatternExpr_484 = da.pat.TuplePattern([da.pat.ConstantPattern('done')])
-PatternExpr_489 = da.pat.BoundPattern('_BoundPattern491_')
-PatternExpr_492 = da.pat.TuplePattern([da.pat.FreePattern(None), da.pat.TuplePattern([da.pat.FreePattern(None), da.pat.FreePattern(None), da.pat.BoundPattern('_BoundPattern498_')]), da.pat.TuplePattern([da.pat.ConstantPattern('done')])])
-PatternExpr_622 = da.pat.TuplePattern([da.pat.ConstantPattern('done'), da.pat.BoundPattern('_BoundPattern625_')])
-PatternExpr_628 = da.pat.TuplePattern([da.pat.FreePattern(None), da.pat.TuplePattern([da.pat.FreePattern(None), da.pat.FreePattern(None), da.pat.FreePattern(None)]), da.pat.TuplePattern([da.pat.ConstantPattern('done'), da.pat.BoundPattern('_BoundPattern638_')])])
+PatternExpr_468 = da.pat.TuplePattern([da.pat.ConstantPattern('done')])
+PatternExpr_473 = da.pat.BoundPattern('_BoundPattern475_')
+PatternExpr_476 = da.pat.TuplePattern([da.pat.FreePattern(None), da.pat.TuplePattern([da.pat.FreePattern(None), da.pat.FreePattern(None), da.pat.BoundPattern('_BoundPattern482_')]), da.pat.TuplePattern([da.pat.ConstantPattern('done')])])
+PatternExpr_606 = da.pat.TuplePattern([da.pat.ConstantPattern('done'), da.pat.BoundPattern('_BoundPattern609_')])
+PatternExpr_612 = da.pat.TuplePattern([da.pat.FreePattern(None), da.pat.TuplePattern([da.pat.FreePattern(None), da.pat.FreePattern(None), da.pat.FreePattern(None)]), da.pat.TuplePattern([da.pat.ConstantPattern('done'), da.pat.BoundPattern('_BoundPattern622_')])])
 _config_object = {'channnel': 'fifo', 'clock': 'lamport'}
 import sys
 
@@ -17,10 +17,10 @@ class P(da.DistProcess):
         super().__init__(procimpl, props)
         self._PReceivedEvent_1 = []
         self._PReceivedEvent_3 = []
-        self._events.extend([da.pat.EventPattern(da.pat.ReceivedEvent, '_PReceivedEvent_0', PatternExpr_224, sources=None, destinations=None, timestamps=None, record_history=None, handlers=[self._P_handler_223]), da.pat.EventPattern(da.pat.ReceivedEvent, '_PReceivedEvent_1', PatternExpr_310, sources=None, destinations=None, timestamps=None, record_history=True, handlers=[]), da.pat.EventPattern(da.pat.ReceivedEvent, '_PReceivedEvent_2', PatternExpr_384, sources=None, destinations=None, timestamps=None, record_history=None, handlers=[self._P_handler_383]), da.pat.EventPattern(da.pat.ReceivedEvent, '_PReceivedEvent_3', PatternExpr_484, sources=[PatternExpr_489], destinations=None, timestamps=None, record_history=True, handlers=[])])
+        self._events.extend([da.pat.EventPattern(da.pat.ReceivedEvent, '_PReceivedEvent_0', PatternExpr_224, sources=None, destinations=None, timestamps=None, record_history=None, handlers=[self._P_handler_223]), da.pat.EventPattern(da.pat.ReceivedEvent, '_PReceivedEvent_1', PatternExpr_310, sources=None, destinations=None, timestamps=None, record_history=True, handlers=[]), da.pat.EventPattern(da.pat.ReceivedEvent, '_PReceivedEvent_2', PatternExpr_384, sources=None, destinations=None, timestamps=None, record_history=None, handlers=[self._P_handler_383]), da.pat.EventPattern(da.pat.ReceivedEvent, '_PReceivedEvent_3', PatternExpr_468, sources=[PatternExpr_473], destinations=None, timestamps=None, record_history=True, handlers=[])])
 
-    def setup(self, s, nrequests, **rest_644):
-        super().setup(s=s, nrequests=nrequests, **rest_644)
+    def setup(self, s, nrequests, **rest_628):
+        super().setup(s=s, nrequests=nrequests, **rest_628)
         self._state.s = s
         self._state.nrequests = nrequests
         self._state.q = set()
@@ -31,22 +31,18 @@ class P(da.DistProcess):
             super()._label('request', block=False)
             c = self.logical_clock()
             self.request(c)
-            c1 = self.logical_clock()
-            self.request(c1)
             self.cs(c)
-            self.cs(c1)
             self.release(c)
-            self.release(c1)
         self.send(('done', self._id), to=self.parent())
-        super()._label('_st_label_481', block=False)
-        _st_label_481 = 0
-        while (_st_label_481 == 0):
-            _st_label_481 += 1
-            if PatternExpr_492.match_iter(self._PReceivedEvent_3, _BoundPattern498_=self.parent(), SELF_ID=self._id):
-                _st_label_481 += 1
+        super()._label('_st_label_465', block=False)
+        _st_label_465 = 0
+        while (_st_label_465 == 0):
+            _st_label_465 += 1
+            if PatternExpr_476.match_iter(self._PReceivedEvent_3, _BoundPattern482_=self.parent(), SELF_ID=self._id):
+                _st_label_465 += 1
             else:
-                super()._label('_st_label_481', block=True)
-                _st_label_481 -= 1
+                super()._label('_st_label_465', block=True)
+                _st_label_465 -= 1
         self.output('terminating')
 
     def request(self, c):
@@ -122,7 +118,7 @@ class Node_(da.NodeProcess):
     def __init__(self, procimpl, props):
         super().__init__(procimpl, props)
         self._Node_ReceivedEvent_0 = []
-        self._events.extend([da.pat.EventPattern(da.pat.ReceivedEvent, '_Node_ReceivedEvent_0', PatternExpr_622, sources=None, destinations=None, timestamps=None, record_history=True, handlers=[])])
+        self._events.extend([da.pat.EventPattern(da.pat.ReceivedEvent, '_Node_ReceivedEvent_0', PatternExpr_606, sources=None, destinations=None, timestamps=None, record_history=True, handlers=[])])
 
     def run(self):
         nprocs = (int(sys.argv[1]) if (len(sys.argv) > 1) else 10)
@@ -134,21 +130,21 @@ class Node_(da.NodeProcess):
         for p in ps:
             self._setup(p, ((ps - {p}), nrequests))
         self._start(ps)
-        super()._label('_st_label_614', block=False)
+        super()._label('_st_label_598', block=False)
         p = None
 
-        def UniversalOpExpr_615():
+        def UniversalOpExpr_599():
             nonlocal p
             for p in ps:
-                if (not PatternExpr_628.match_iter(self._Node_ReceivedEvent_0, _BoundPattern638_=p)):
+                if (not PatternExpr_612.match_iter(self._Node_ReceivedEvent_0, _BoundPattern622_=p)):
                     return False
             return True
-        _st_label_614 = 0
-        while (_st_label_614 == 0):
-            _st_label_614 += 1
-            if UniversalOpExpr_615():
-                _st_label_614 += 1
+        _st_label_598 = 0
+        while (_st_label_598 == 0):
+            _st_label_598 += 1
+            if UniversalOpExpr_599():
+                _st_label_598 += 1
             else:
-                super()._label('_st_label_614', block=True)
-                _st_label_614 -= 1
+                super()._label('_st_label_598', block=True)
+                _st_label_598 -= 1
         self.send(('done',), to=ps)
