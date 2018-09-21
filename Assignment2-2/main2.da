@@ -32,8 +32,6 @@ class P(process):
             if(tag == 'request' and p2==self and c < minimumTimeStamp):
                 minimumTimeStamp = c;
         c = minimumTimeStamp
-
-        output ('Requesting CS with timestamp: ' + str(c))
         
         if await(each(('request', c2, p)in q, has= (c2,p)==(c, self) or (c,self) < (c2, p)) and each(p in s, has= some(received(('ack', c2, _p)), has= c2 > c))):
             output('In CS of process: ' + str(self) + ' with timestamp : '+ str(c) + ' at time:' + str(logical_clock()))
@@ -47,7 +45,6 @@ class P(process):
         for(tag, c, p) in q:
             if(tag == 'request' and p==self):
                 q.remove(('request', c, self))
-                output('Releasing process: ' + str(self) + ' with timestamp : '+ str(c) + ' at time:' + str(logical_clock()))
                 send(('release', logical_clock(), self), to= s)
                 break
 
@@ -60,10 +57,8 @@ class P(process):
     def run():
         for i in range(nrequests):
             request()
+            cs()
             request()
-            cs()
-            release()
-            cs()
             release()
 
         send(('done', self), to= parent())
