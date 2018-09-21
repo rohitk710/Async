@@ -14,16 +14,19 @@ class P(process):
     
     def request():
         c = logical_clock()
+        output('Request resource message sent from:' + str(self) +' with timestamp: '+ str(c))
         send(('request', c, self), to= s)
         q.add(('request', c , self))
+        output("Queue of process: "+ str(self) + " is: "+ str(q))
         
 
     def receive(msg= ('request', c2, p)):
         -- receive
+        output('Request resource message received at:' + str(p) +' which has timestamp: '+ str(c2))
         q.add(('request', c2, p))
+        output("Queue of process: "+ str(p) + " is: "+ str(q))
         send(('ack', logical_clock(), self), to= p)
 
-    #For entering the CS we check in that process's queue for it's earliest call and verify CS entering condition for it and if it satisfies we remove it.
     def cs():
         -- cs
         minimumTimeStamp = 100000
@@ -37,22 +40,26 @@ class P(process):
             timedOut = timedOut + 1
             output ('Timed out for process: ' + str(self))        
 
-    # For release we select any request from the self's queue and remove it.
+
     def release():
         -- release
         for(tag, c, p) in q:
             if(tag == 'request' and p==self):
+                output('Releasing resource :' + str(self) + ' which has timestamp: ' + str(c))
                 q.remove(('request', c, self))
+                output("Queue of process: "+ str(self) + " is: "+ str(q))
                 send(('release', logical_clock(), self), to= s)
                 break
 
-    # Once process receives the release request, it searches for any request message in its queue from the sender's process and removes it.
     def receive(msg= ('release', c, p)):
         for x in setof(('request', c, p), ('request', c, _p) in q):
+            output("Removing : "+ str(x))
             q.remove(x)
+            output("Queue of process: "+ str(self) + " is: "+ str(q))
             break
 
     def run():
+
         for i in range(nrequests):
             request()
             cs()
@@ -60,7 +67,7 @@ class P(process):
 
         send(('done', self), to= parent())
         await(received(('done',), from_=parent()))
-        output ('Number of requests timed out for process ' + str(self) +' is :'+ str(timedOut))
+        output ('Number of processes timed out: '+ str(timedOut))
         output('terminating')
 
 
