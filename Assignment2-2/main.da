@@ -1,0 +1,95 @@
+import sys
+
+config(channnel is fifo, clock is lamport)
+
+class P(process):
+    def setup(s:set, nrequests:int):
+        self.q = set()
+        self.timedOut = 0
+        self.minc = 100000
+
+
+    # Step1: To request the resource, process Pi sends the message Tm:Pi requests resource to every other process, 
+    # and puts that message on its request queue, where Tm is the timestamp of the message.
+    
+    def request():
+        c = logical_clock()
+        output('Request resource message sent from:' + str(self) +' with timestamp: '+ str(c))
+        send(('request', c, self), to= s)
+        q.add(('request', c , self))
+        output("Queue of process: "+ str(self) + " is: "+ str(q))
+        
+
+    def receive(msg= ('request', c2, p)):
+        -- receive
+        output('Request resource message received at:' + str(p) +' which has timestamp: '+ str(c2))
+        q.add(('request', c2, p))
+        output("Queue of process: "+ str(p) + " is: "+ str(q))
+        send(('ack', logical_clock(), self), to= p)
+
+    def cs():
+        -- cs
+        minc = 100000
+        for (tag, c, p2) in q:
+            if(tag == 'request' and p2==self and c < minc):
+                minc = c;
+        c = minc
+        if await(each(('request', c2, p)in q, has= (c2,p)==(c, self) or (c,self) < (c2, p)) and each(p in s, has= some(received(('ack', c2, _p)), has= c2 > c))):
+            output('In CS of process: ' + str(self))
+        elif timeout(15):
+            timedOut = timedOut + 1
+            output ('Timed out for process: ' + str(self))
+
+
+    def release():
+        minc = 100000
+        for (tag, c, p2) in q:
+            if(tag == 'request' and p2==self and c < minc):
+                minc = c;
+        c = minc
+        -- release
+        output('Releasing resource :' + str(self) + ' which has timestamp: ' + str(c))
+        q.remove(('request', c, self))
+        output("Queue of process: "+ str(self) + " is: "+ str(q))
+        send(('release', logical_clock(), self), to= s)
+
+    def receive(msg= ('release', c, p)):
+        minc = 100000
+        for (tag, c, p2) in q:
+            if(tag == 'request' and p2==p and c < minc):
+                minc = c;
+        c = minc
+        for x in setof(('request', c, p), ('request', c2, p2) in q):
+            output("Removing : "+ str(x))
+            q.remove(x)
+            output("Queue of process: "+ str(self) + " is: "+ str(q))
+            break
+
+    def run():
+
+        output('Performing sequence request CS request CS release release') 
+        -- request
+        request()
+        request()
+        cs()
+        cs()        
+        release()
+
+        release()
+
+
+        send(('done', self), to= parent())
+        await(received(('done',), from_=parent()))
+        output ('Number of processes timed out: '+ str(timedOut))
+        output('terminating')
+
+
+def main():
+    nprocs = int(sys.argv[1]) if len(sys.argv) > 1 else 10
+    nrequests = int(sys.argv[2]) if len(sys.argv) > 2 else 10
+
+    ps = new(P, num=nprocs)
+    for p in ps: setup(p, (ps-{p}, nrequests))
+    start(ps)
+    await(each(p in ps, has=received(('done', p))))
+    send(('done',), to=ps)
