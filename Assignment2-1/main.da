@@ -18,6 +18,7 @@ class P(process):
         q.add(('request', c , self))
         
 
+    # Once a process receives a request, it adds it in it's queue
     def receive(msg= ('request', c2, p)):
         -- receive
         q.add(('request', c2, p))
@@ -31,6 +32,7 @@ class P(process):
             if(tag == 'request' and p2==self and c < minimumTimeStamp):
                 minimumTimeStamp = c;
         c = minimumTimeStamp
+        
         if await(each(('request', c2, p)in q, has= (c2,p)==(c, self) or (c,self) < (c2, p)) and each(p in s, has= some(received(('ack', c2, _p)), has= c2 > c))):
             output('In CS of process: ' + str(self) + ' with timestamp : '+ str(c))
         elif timeout(15):
@@ -61,7 +63,6 @@ class P(process):
         send(('done', self), to= parent())
         await(received(('done',), from_=parent()))
         output ('Number of requests timed out for process ' + str(self) +' is :'+ str(timedOut))
-        output('terminating')
 
 
 def main():
