@@ -3,29 +3,29 @@ import da
 PatternExpr_216 = da.pat.TuplePattern([da.pat.ConstantPattern('request'), da.pat.FreePattern('c2'), da.pat.FreePattern('p')])
 PatternExpr_307 = da.pat.TuplePattern([da.pat.ConstantPattern('ack'), da.pat.FreePattern('c2'), da.pat.BoundPattern('_BoundPattern311_')])
 PatternExpr_393 = da.pat.TuplePattern([da.pat.ConstantPattern('release'), da.pat.FreePattern('c'), da.pat.FreePattern('p')])
-PatternExpr_452 = da.pat.TuplePattern([da.pat.ConstantPattern('done')])
-PatternExpr_457 = da.pat.BoundPattern('_BoundPattern459_')
-PatternExpr_460 = da.pat.TuplePattern([da.pat.FreePattern(None), da.pat.TuplePattern([da.pat.FreePattern(None), da.pat.FreePattern(None), da.pat.BoundPattern('_BoundPattern466_')]), da.pat.TuplePattern([da.pat.ConstantPattern('done')])])
-PatternExpr_548 = da.pat.TuplePattern([da.pat.ConstantPattern('ack'), da.pat.FreePattern('c2'), da.pat.BoundPattern('_BoundPattern552_')])
-PatternExpr_592 = da.pat.TuplePattern([da.pat.ConstantPattern('request'), da.pat.FreePattern('c2'), da.pat.FreePattern('p')])
-PatternExpr_618 = da.pat.TuplePattern([da.pat.ConstantPattern('release'), da.pat.FreePattern(None), da.pat.FreePattern('p')])
-PatternExpr_677 = da.pat.TuplePattern([da.pat.ConstantPattern('done')])
-PatternExpr_682 = da.pat.BoundPattern('_BoundPattern684_')
-PatternExpr_685 = da.pat.TuplePattern([da.pat.FreePattern(None), da.pat.TuplePattern([da.pat.FreePattern(None), da.pat.FreePattern(None), da.pat.BoundPattern('_BoundPattern691_')]), da.pat.TuplePattern([da.pat.ConstantPattern('done')])])
-PatternExpr_728 = da.pat.TuplePattern([da.pat.ConstantPattern('request'), da.pat.FreePattern('c2'), da.pat.FreePattern('p')])
-PatternExpr_753 = da.pat.TuplePattern([da.pat.ConstantPattern('release'), da.pat.BoundPattern('_BoundPattern756_'), da.pat.BoundPattern('_BoundPattern757_')])
-PatternExpr_786 = da.pat.TuplePattern([da.pat.ConstantPattern('ack'), da.pat.BoundPattern('_BoundPattern789_'), da.pat.BoundPattern('_BoundPattern790_')])
-PatternExpr_818 = da.pat.TuplePattern([da.pat.ConstantPattern('request'), da.pat.FreePattern('c'), da.pat.FreePattern('p')])
-PatternExpr_869 = da.pat.TuplePattern([da.pat.ConstantPattern('done'), da.pat.BoundPattern('_BoundPattern872_')])
-PatternExpr_875 = da.pat.TuplePattern([da.pat.FreePattern(None), da.pat.TuplePattern([da.pat.FreePattern(None), da.pat.FreePattern(None), da.pat.FreePattern(None)]), da.pat.TuplePattern([da.pat.ConstantPattern('done'), da.pat.BoundPattern('_BoundPattern885_')])])
-PatternExpr_760 = da.pat.TuplePattern([da.pat.FreePattern(None), da.pat.TuplePattern([da.pat.FreePattern(None), da.pat.FreePattern(None), da.pat.FreePattern(None)]), da.pat.TuplePattern([da.pat.ConstantPattern('release'), da.pat.BoundPattern('_BoundPattern770_'), da.pat.BoundPattern('_BoundPattern771_')])])
-PatternExpr_793 = da.pat.TuplePattern([da.pat.FreePattern(None), da.pat.TuplePattern([da.pat.FreePattern(None), da.pat.FreePattern(None), da.pat.FreePattern(None)]), da.pat.TuplePattern([da.pat.ConstantPattern('ack'), da.pat.BoundPattern('_BoundPattern803_'), da.pat.BoundPattern('_BoundPattern804_')])])
-PatternExpr_1044 = da.pat.TuplePattern([da.pat.ConstantPattern('done'), da.pat.BoundPattern('_BoundPattern1047_')])
-PatternExpr_1115 = da.pat.TuplePattern([da.pat.ConstantPattern('done'), da.pat.BoundPattern('_BoundPattern1118_')])
-PatternExpr_1186 = da.pat.TuplePattern([da.pat.ConstantPattern('done'), da.pat.BoundPattern('_BoundPattern1189_')])
-PatternExpr_1050 = da.pat.TuplePattern([da.pat.FreePattern(None), da.pat.TuplePattern([da.pat.FreePattern(None), da.pat.FreePattern(None), da.pat.FreePattern(None)]), da.pat.TuplePattern([da.pat.ConstantPattern('done'), da.pat.BoundPattern('_BoundPattern1060_')])])
-PatternExpr_1121 = da.pat.TuplePattern([da.pat.FreePattern(None), da.pat.TuplePattern([da.pat.FreePattern(None), da.pat.FreePattern(None), da.pat.FreePattern(None)]), da.pat.TuplePattern([da.pat.ConstantPattern('done'), da.pat.BoundPattern('_BoundPattern1131_')])])
-PatternExpr_1192 = da.pat.TuplePattern([da.pat.FreePattern(None), da.pat.TuplePattern([da.pat.FreePattern(None), da.pat.FreePattern(None), da.pat.FreePattern(None)]), da.pat.TuplePattern([da.pat.ConstantPattern('done'), da.pat.BoundPattern('_BoundPattern1202_')])])
+PatternExpr_461 = da.pat.TuplePattern([da.pat.ConstantPattern('done')])
+PatternExpr_466 = da.pat.BoundPattern('_BoundPattern468_')
+PatternExpr_469 = da.pat.TuplePattern([da.pat.FreePattern(None), da.pat.TuplePattern([da.pat.FreePattern(None), da.pat.FreePattern(None), da.pat.BoundPattern('_BoundPattern475_')]), da.pat.TuplePattern([da.pat.ConstantPattern('done')])])
+PatternExpr_557 = da.pat.TuplePattern([da.pat.ConstantPattern('ack'), da.pat.FreePattern('c2'), da.pat.BoundPattern('_BoundPattern561_')])
+PatternExpr_601 = da.pat.TuplePattern([da.pat.ConstantPattern('request'), da.pat.FreePattern('c2'), da.pat.FreePattern('p')])
+PatternExpr_627 = da.pat.TuplePattern([da.pat.ConstantPattern('release'), da.pat.FreePattern(None), da.pat.FreePattern('p')])
+PatternExpr_686 = da.pat.TuplePattern([da.pat.ConstantPattern('done')])
+PatternExpr_691 = da.pat.BoundPattern('_BoundPattern693_')
+PatternExpr_694 = da.pat.TuplePattern([da.pat.FreePattern(None), da.pat.TuplePattern([da.pat.FreePattern(None), da.pat.FreePattern(None), da.pat.BoundPattern('_BoundPattern700_')]), da.pat.TuplePattern([da.pat.ConstantPattern('done')])])
+PatternExpr_737 = da.pat.TuplePattern([da.pat.ConstantPattern('request'), da.pat.FreePattern('c2'), da.pat.FreePattern('p')])
+PatternExpr_762 = da.pat.TuplePattern([da.pat.ConstantPattern('release'), da.pat.BoundPattern('_BoundPattern765_'), da.pat.BoundPattern('_BoundPattern766_')])
+PatternExpr_795 = da.pat.TuplePattern([da.pat.ConstantPattern('ack'), da.pat.BoundPattern('_BoundPattern798_'), da.pat.BoundPattern('_BoundPattern799_')])
+PatternExpr_827 = da.pat.TuplePattern([da.pat.ConstantPattern('request'), da.pat.FreePattern('c'), da.pat.FreePattern('p')])
+PatternExpr_878 = da.pat.TuplePattern([da.pat.ConstantPattern('done'), da.pat.BoundPattern('_BoundPattern881_')])
+PatternExpr_884 = da.pat.TuplePattern([da.pat.FreePattern(None), da.pat.TuplePattern([da.pat.FreePattern(None), da.pat.FreePattern(None), da.pat.FreePattern(None)]), da.pat.TuplePattern([da.pat.ConstantPattern('done'), da.pat.BoundPattern('_BoundPattern894_')])])
+PatternExpr_769 = da.pat.TuplePattern([da.pat.FreePattern(None), da.pat.TuplePattern([da.pat.FreePattern(None), da.pat.FreePattern(None), da.pat.FreePattern(None)]), da.pat.TuplePattern([da.pat.ConstantPattern('release'), da.pat.BoundPattern('_BoundPattern779_'), da.pat.BoundPattern('_BoundPattern780_')])])
+PatternExpr_802 = da.pat.TuplePattern([da.pat.FreePattern(None), da.pat.TuplePattern([da.pat.FreePattern(None), da.pat.FreePattern(None), da.pat.FreePattern(None)]), da.pat.TuplePattern([da.pat.ConstantPattern('ack'), da.pat.BoundPattern('_BoundPattern812_'), da.pat.BoundPattern('_BoundPattern813_')])])
+PatternExpr_1053 = da.pat.TuplePattern([da.pat.ConstantPattern('done'), da.pat.BoundPattern('_BoundPattern1056_')])
+PatternExpr_1124 = da.pat.TuplePattern([da.pat.ConstantPattern('done'), da.pat.BoundPattern('_BoundPattern1127_')])
+PatternExpr_1195 = da.pat.TuplePattern([da.pat.ConstantPattern('done'), da.pat.BoundPattern('_BoundPattern1198_')])
+PatternExpr_1059 = da.pat.TuplePattern([da.pat.FreePattern(None), da.pat.TuplePattern([da.pat.FreePattern(None), da.pat.FreePattern(None), da.pat.FreePattern(None)]), da.pat.TuplePattern([da.pat.ConstantPattern('done'), da.pat.BoundPattern('_BoundPattern1069_')])])
+PatternExpr_1130 = da.pat.TuplePattern([da.pat.FreePattern(None), da.pat.TuplePattern([da.pat.FreePattern(None), da.pat.FreePattern(None), da.pat.FreePattern(None)]), da.pat.TuplePattern([da.pat.ConstantPattern('done'), da.pat.BoundPattern('_BoundPattern1140_')])])
+PatternExpr_1201 = da.pat.TuplePattern([da.pat.FreePattern(None), da.pat.TuplePattern([da.pat.FreePattern(None), da.pat.FreePattern(None), da.pat.FreePattern(None)]), da.pat.TuplePattern([da.pat.ConstantPattern('done'), da.pat.BoundPattern('_BoundPattern1211_')])])
 _config_object = {}
 import sys
 from random import randint
@@ -36,10 +36,10 @@ class PMine(da.DistProcess):
         super().__init__(procimpl, props)
         self._PMineReceivedEvent_1 = []
         self._PMineReceivedEvent_3 = []
-        self._events.extend([da.pat.EventPattern(da.pat.ReceivedEvent, '_PMineReceivedEvent_0', PatternExpr_216, sources=None, destinations=None, timestamps=None, record_history=None, handlers=[self._PMine_handler_215]), da.pat.EventPattern(da.pat.ReceivedEvent, '_PMineReceivedEvent_1', PatternExpr_307, sources=None, destinations=None, timestamps=None, record_history=True, handlers=[]), da.pat.EventPattern(da.pat.ReceivedEvent, '_PMineReceivedEvent_2', PatternExpr_393, sources=None, destinations=None, timestamps=None, record_history=None, handlers=[self._PMine_handler_392]), da.pat.EventPattern(da.pat.ReceivedEvent, '_PMineReceivedEvent_3', PatternExpr_452, sources=[PatternExpr_457], destinations=None, timestamps=None, record_history=True, handlers=[])])
+        self._events.extend([da.pat.EventPattern(da.pat.ReceivedEvent, '_PMineReceivedEvent_0', PatternExpr_216, sources=None, destinations=None, timestamps=None, record_history=None, handlers=[self._PMine_handler_215]), da.pat.EventPattern(da.pat.ReceivedEvent, '_PMineReceivedEvent_1', PatternExpr_307, sources=None, destinations=None, timestamps=None, record_history=True, handlers=[]), da.pat.EventPattern(da.pat.ReceivedEvent, '_PMineReceivedEvent_2', PatternExpr_393, sources=None, destinations=None, timestamps=None, record_history=None, handlers=[self._PMine_handler_392]), da.pat.EventPattern(da.pat.ReceivedEvent, '_PMineReceivedEvent_3', PatternExpr_461, sources=[PatternExpr_466], destinations=None, timestamps=None, record_history=True, handlers=[])])
 
-    def setup(self, s, nrequests, **rest_1208):
-        super().setup(s=s, nrequests=nrequests, **rest_1208)
+    def setup(self, s, nrequests, **rest_1217):
+        super().setup(s=s, nrequests=nrequests, **rest_1217)
         self._state.s = s
         self._state.nrequests = nrequests
         self._state.q = set()
@@ -49,18 +49,21 @@ class PMine(da.DistProcess):
     def run(self):
         for i in range(self._state.nrequests):
             self.request()
+            self.request()
+            self.cs()
+            self.release()
             self.cs()
             self.release()
         self.send(('done', self._id), to=self.parent())
-        super()._label('_st_label_449', block=False)
-        _st_label_449 = 0
-        while (_st_label_449 == 0):
-            _st_label_449 += 1
-            if PatternExpr_460.match_iter(self._PMineReceivedEvent_3, _BoundPattern466_=self.parent(), SELF_ID=self._id):
-                _st_label_449 += 1
+        super()._label('_st_label_458', block=False)
+        _st_label_458 = 0
+        while (_st_label_458 == 0):
+            _st_label_458 += 1
+            if PatternExpr_469.match_iter(self._PMineReceivedEvent_3, _BoundPattern475_=self.parent(), SELF_ID=self._id):
+                _st_label_458 += 1
             else:
-                super()._label('_st_label_449', block=True)
-                _st_label_449 -= 1
+                super()._label('_st_label_458', block=True)
+                _st_label_458 -= 1
 
     def request(self):
         c = self.logical_clock()
@@ -144,10 +147,10 @@ class POrig(da.DistProcess):
         super().__init__(procimpl, props)
         self._POrigReceivedEvent_0 = []
         self._POrigReceivedEvent_3 = []
-        self._events.extend([da.pat.EventPattern(da.pat.ReceivedEvent, '_POrigReceivedEvent_0', PatternExpr_548, sources=None, destinations=None, timestamps=None, record_history=True, handlers=[]), da.pat.EventPattern(da.pat.ReceivedEvent, '_POrigReceivedEvent_1', PatternExpr_592, sources=None, destinations=None, timestamps=None, record_history=None, handlers=[self._POrig_handler_591]), da.pat.EventPattern(da.pat.ReceivedEvent, '_POrigReceivedEvent_2', PatternExpr_618, sources=None, destinations=None, timestamps=None, record_history=None, handlers=[self._POrig_handler_617]), da.pat.EventPattern(da.pat.ReceivedEvent, '_POrigReceivedEvent_3', PatternExpr_677, sources=[PatternExpr_682], destinations=None, timestamps=None, record_history=True, handlers=[])])
+        self._events.extend([da.pat.EventPattern(da.pat.ReceivedEvent, '_POrigReceivedEvent_0', PatternExpr_557, sources=None, destinations=None, timestamps=None, record_history=True, handlers=[]), da.pat.EventPattern(da.pat.ReceivedEvent, '_POrigReceivedEvent_1', PatternExpr_601, sources=None, destinations=None, timestamps=None, record_history=None, handlers=[self._POrig_handler_600]), da.pat.EventPattern(da.pat.ReceivedEvent, '_POrigReceivedEvent_2', PatternExpr_627, sources=None, destinations=None, timestamps=None, record_history=None, handlers=[self._POrig_handler_626]), da.pat.EventPattern(da.pat.ReceivedEvent, '_POrigReceivedEvent_3', PatternExpr_686, sources=[PatternExpr_691], destinations=None, timestamps=None, record_history=True, handlers=[])])
 
-    def setup(self, s, nrequests, **rest_1208):
-        super().setup(s=s, nrequests=nrequests, **rest_1208)
+    def setup(self, s, nrequests, **rest_1217):
+        super().setup(s=s, nrequests=nrequests, **rest_1217)
         self._state.s = s
         self._state.nrequests = nrequests
         self._state.q = set()
@@ -159,74 +162,74 @@ class POrig(da.DistProcess):
         for i in range(self._state.nrequests):
             self.mutex(task)
         self.send(('done', self._id), to=self.parent())
-        super()._label('_st_label_674', block=False)
-        _st_label_674 = 0
-        while (_st_label_674 == 0):
-            _st_label_674 += 1
-            if PatternExpr_685.match_iter(self._POrigReceivedEvent_3, _BoundPattern691_=self.parent(), SELF_ID=self._id):
-                _st_label_674 += 1
+        super()._label('_st_label_683', block=False)
+        _st_label_683 = 0
+        while (_st_label_683 == 0):
+            _st_label_683 += 1
+            if PatternExpr_694.match_iter(self._POrigReceivedEvent_3, _BoundPattern700_=self.parent(), SELF_ID=self._id):
+                _st_label_683 += 1
             else:
-                super()._label('_st_label_674', block=True)
-                _st_label_674 -= 1
+                super()._label('_st_label_683', block=True)
+                _st_label_683 -= 1
 
     def mutex(self, task):
         super()._label('request', block=False)
         c = self.logical_clock()
         self.send(('request', c, self._id), to=self._state.s)
         self._state.q.add(('request', c, self._id))
-        super()._label('_st_label_513', block=False)
+        super()._label('_st_label_522', block=False)
         p = c2 = None
 
-        def UniversalOpExpr_515():
+        def UniversalOpExpr_524():
             nonlocal p, c2
-            for (_ConstantPattern519_, c2, p) in self._state.q:
-                if (_ConstantPattern519_ == 'request'):
+            for (_ConstantPattern528_, c2, p) in self._state.q:
+                if (_ConstantPattern528_ == 'request'):
                     if (not (((c2, p) == (c, self._id)) or ((c, self._id) < (c2, p)))):
                         return False
             return True
         p = c2 = None
 
-        def UniversalOpExpr_541():
+        def UniversalOpExpr_550():
             nonlocal p, c2
             for p in self._state.s:
 
-                def ExistentialOpExpr_546(p):
+                def ExistentialOpExpr_555(p):
                     nonlocal c2
-                    for (_, _, (_ConstantPattern563_, c2, _BoundPattern566_)) in self._POrigReceivedEvent_0:
-                        if (_ConstantPattern563_ == 'ack'):
-                            if (_BoundPattern566_ == p):
+                    for (_, _, (_ConstantPattern572_, c2, _BoundPattern575_)) in self._POrigReceivedEvent_0:
+                        if (_ConstantPattern572_ == 'ack'):
+                            if (_BoundPattern575_ == p):
                                 if (c2 > c):
                                     return True
                     return False
-                if (not ExistentialOpExpr_546(p=p)):
+                if (not ExistentialOpExpr_555(p=p)):
                     return False
             return True
-        _st_label_513 = 0
-        while (_st_label_513 == 0):
-            _st_label_513 += 1
-            if (UniversalOpExpr_515() and UniversalOpExpr_541()):
-                _st_label_513 += 1
+        _st_label_522 = 0
+        while (_st_label_522 == 0):
+            _st_label_522 += 1
+            if (UniversalOpExpr_524() and UniversalOpExpr_550()):
+                _st_label_522 += 1
             else:
-                super()._label('_st_label_513', block=True)
-                _st_label_513 -= 1
+                super()._label('_st_label_522', block=True)
+                _st_label_522 -= 1
         super()._label('critical_section', block=False)
         task()
         super()._label('release', block=False)
         self._state.q.remove(('request', c, self._id))
         self.send(('release', self.logical_clock(), self._id), to=self._state.s)
 
-    def _POrig_handler_591(self, c2, p):
+    def _POrig_handler_600(self, c2, p):
         self._state.q.add(('request', c2, p))
         self.send(('ack', self.logical_clock(), self._id), to=p)
-    _POrig_handler_591._labels = None
-    _POrig_handler_591._notlabels = None
+    _POrig_handler_600._labels = None
+    _POrig_handler_600._notlabels = None
 
-    def _POrig_handler_617(self, p):
-        for x in {('request', c, p) for (_ConstantPattern634_, c, _BoundPattern637_) in self._state.q if (_ConstantPattern634_ == 'request') if (_BoundPattern637_ == p)}:
+    def _POrig_handler_626(self, p):
+        for x in {('request', c, p) for (_ConstantPattern643_, c, _BoundPattern646_) in self._state.q if (_ConstantPattern643_ == 'request') if (_BoundPattern646_ == p)}:
             self._state.q.remove(x)
             break
-    _POrig_handler_617._labels = None
-    _POrig_handler_617._notlabels = None
+    _POrig_handler_626._labels = None
+    _POrig_handler_626._notlabels = None
 
 class PSpec(da.DistProcess):
 
@@ -236,10 +239,10 @@ class PSpec(da.DistProcess):
         self._PSpecReceivedEvent_1 = []
         self._PSpecReceivedEvent_2 = []
         self._PSpecReceivedEvent_4 = []
-        self._events.extend([da.pat.EventPattern(da.pat.ReceivedEvent, '_PSpecReceivedEvent_0', PatternExpr_728, sources=None, destinations=None, timestamps=None, record_history=True, handlers=[]), da.pat.EventPattern(da.pat.ReceivedEvent, '_PSpecReceivedEvent_1', PatternExpr_753, sources=None, destinations=None, timestamps=None, record_history=True, handlers=[]), da.pat.EventPattern(da.pat.ReceivedEvent, '_PSpecReceivedEvent_2', PatternExpr_786, sources=None, destinations=None, timestamps=None, record_history=True, handlers=[]), da.pat.EventPattern(da.pat.ReceivedEvent, '_PSpecReceivedEvent_3', PatternExpr_818, sources=None, destinations=None, timestamps=None, record_history=None, handlers=[self._PSpec_handler_817]), da.pat.EventPattern(da.pat.ReceivedEvent, '_PSpecReceivedEvent_4', PatternExpr_869, sources=None, destinations=None, timestamps=None, record_history=True, handlers=[])])
+        self._events.extend([da.pat.EventPattern(da.pat.ReceivedEvent, '_PSpecReceivedEvent_0', PatternExpr_737, sources=None, destinations=None, timestamps=None, record_history=True, handlers=[]), da.pat.EventPattern(da.pat.ReceivedEvent, '_PSpecReceivedEvent_1', PatternExpr_762, sources=None, destinations=None, timestamps=None, record_history=True, handlers=[]), da.pat.EventPattern(da.pat.ReceivedEvent, '_PSpecReceivedEvent_2', PatternExpr_795, sources=None, destinations=None, timestamps=None, record_history=True, handlers=[]), da.pat.EventPattern(da.pat.ReceivedEvent, '_PSpecReceivedEvent_3', PatternExpr_827, sources=None, destinations=None, timestamps=None, record_history=None, handlers=[self._PSpec_handler_826]), da.pat.EventPattern(da.pat.ReceivedEvent, '_PSpecReceivedEvent_4', PatternExpr_878, sources=None, destinations=None, timestamps=None, record_history=True, handlers=[])])
 
-    def setup(self, s, nrequests, **rest_1208):
-        super().setup(s=s, nrequests=nrequests, **rest_1208)
+    def setup(self, s, nrequests, **rest_1217):
+        super().setup(s=s, nrequests=nrequests, **rest_1217)
         self._state.s = s
         self._state.nrequests = nrequests
         pass
@@ -252,63 +255,63 @@ class PSpec(da.DistProcess):
         for i in range(self._state.nrequests):
             self.mutex(task)
         self.send(('done', self._id), to=self._state.s)
-        super()._label('_st_label_860', block=False)
+        super()._label('_st_label_869', block=False)
         p = None
 
-        def UniversalOpExpr_861():
+        def UniversalOpExpr_870():
             nonlocal p
             for p in self._state.s:
-                if (not PatternExpr_875.match_iter(self._PSpecReceivedEvent_4, _BoundPattern885_=p, SELF_ID=self._id)):
+                if (not PatternExpr_884.match_iter(self._PSpecReceivedEvent_4, _BoundPattern894_=p, SELF_ID=self._id)):
                     return False
             return True
-        _st_label_860 = 0
-        while (_st_label_860 == 0):
-            _st_label_860 += 1
-            if UniversalOpExpr_861():
-                _st_label_860 += 1
+        _st_label_869 = 0
+        while (_st_label_869 == 0):
+            _st_label_869 += 1
+            if UniversalOpExpr_870():
+                _st_label_869 += 1
             else:
-                super()._label('_st_label_860', block=True)
-                _st_label_860 -= 1
+                super()._label('_st_label_869', block=True)
+                _st_label_869 -= 1
 
     def mutex(self, task):
         super()._label('request', block=False)
         c = self.logical_clock()
         self.send(('request', c, self._id), to=self._state.s)
-        super()._label('_st_label_724', block=False)
+        super()._label('_st_label_733', block=False)
         p = c2 = None
 
-        def UniversalOpExpr_726():
+        def UniversalOpExpr_735():
             nonlocal p, c2
-            for (_, _, (_ConstantPattern745_, c2, p)) in self._PSpecReceivedEvent_0:
-                if (_ConstantPattern745_ == 'request'):
-                    if (not (PatternExpr_760.match_iter(self._PSpecReceivedEvent_1, _BoundPattern770_=c2, _BoundPattern771_=p, SELF_ID=self._id) or ((c, self._id) < (c2, p)))):
+            for (_, _, (_ConstantPattern754_, c2, p)) in self._PSpecReceivedEvent_0:
+                if (_ConstantPattern754_ == 'request'):
+                    if (not (PatternExpr_769.match_iter(self._PSpecReceivedEvent_1, _BoundPattern779_=c2, _BoundPattern780_=p, SELF_ID=self._id) or ((c, self._id) < (c2, p)))):
                         return False
             return True
         p = None
 
-        def UniversalOpExpr_779():
+        def UniversalOpExpr_788():
             nonlocal p
             for p in self._state.s:
-                if (not PatternExpr_793.match_iter(self._PSpecReceivedEvent_2, _BoundPattern803_=c, _BoundPattern804_=p, SELF_ID=self._id)):
+                if (not PatternExpr_802.match_iter(self._PSpecReceivedEvent_2, _BoundPattern812_=c, _BoundPattern813_=p, SELF_ID=self._id)):
                     return False
             return True
-        _st_label_724 = 0
-        while (_st_label_724 == 0):
-            _st_label_724 += 1
-            if (UniversalOpExpr_726() and UniversalOpExpr_779()):
-                _st_label_724 += 1
+        _st_label_733 = 0
+        while (_st_label_733 == 0):
+            _st_label_733 += 1
+            if (UniversalOpExpr_735() and UniversalOpExpr_788()):
+                _st_label_733 += 1
             else:
-                super()._label('_st_label_724', block=True)
-                _st_label_724 -= 1
+                super()._label('_st_label_733', block=True)
+                _st_label_733 -= 1
         super()._label('critical_section', block=False)
         task()
         super()._label('release', block=False)
         self.send(('release', c, self._id), to=self._state.s)
 
-    def _PSpec_handler_817(self, c, p):
+    def _PSpec_handler_826(self, c, p):
         self.send(('ack', c, self._id), to=p)
-    _PSpec_handler_817._labels = None
-    _PSpec_handler_817._notlabels = None
+    _PSpec_handler_826._labels = None
+    _PSpec_handler_826._notlabels = None
 
 class Node_(da.NodeProcess):
 
@@ -317,7 +320,7 @@ class Node_(da.NodeProcess):
         self._Node_ReceivedEvent_0 = []
         self._Node_ReceivedEvent_1 = []
         self._Node_ReceivedEvent_2 = []
-        self._events.extend([da.pat.EventPattern(da.pat.ReceivedEvent, '_Node_ReceivedEvent_0', PatternExpr_1044, sources=None, destinations=None, timestamps=None, record_history=True, handlers=[]), da.pat.EventPattern(da.pat.ReceivedEvent, '_Node_ReceivedEvent_1', PatternExpr_1115, sources=None, destinations=None, timestamps=None, record_history=True, handlers=[]), da.pat.EventPattern(da.pat.ReceivedEvent, '_Node_ReceivedEvent_2', PatternExpr_1186, sources=None, destinations=None, timestamps=None, record_history=True, handlers=[])])
+        self._events.extend([da.pat.EventPattern(da.pat.ReceivedEvent, '_Node_ReceivedEvent_0', PatternExpr_1053, sources=None, destinations=None, timestamps=None, record_history=True, handlers=[]), da.pat.EventPattern(da.pat.ReceivedEvent, '_Node_ReceivedEvent_1', PatternExpr_1124, sources=None, destinations=None, timestamps=None, record_history=True, handlers=[]), da.pat.EventPattern(da.pat.ReceivedEvent, '_Node_ReceivedEvent_2', PatternExpr_1195, sources=None, destinations=None, timestamps=None, record_history=True, handlers=[])])
     _config_object = {'channel': 'fifo', 'clock': 'Lamport'}
 
     def run(self):
@@ -334,27 +337,27 @@ class Node_(da.NodeProcess):
             for p in psPMine:
                 self._setup(p, ((psPMine - {p}), numOfRequests))
             self._start(psPMine)
-            super()._label('_st_label_1036', block=False)
+            super()._label('_st_label_1045', block=False)
             p = None
 
-            def UniversalOpExpr_1037():
+            def UniversalOpExpr_1046():
                 nonlocal p
                 for p in psPMine:
-                    if (not PatternExpr_1050.match_iter(self._Node_ReceivedEvent_0, _BoundPattern1060_=p)):
+                    if (not PatternExpr_1059.match_iter(self._Node_ReceivedEvent_0, _BoundPattern1069_=p)):
                         return False
                 return True
-            _st_label_1036 = 0
-            while (_st_label_1036 == 0):
-                _st_label_1036 += 1
-                if UniversalOpExpr_1037():
-                    _st_label_1036 += 1
+            _st_label_1045 = 0
+            while (_st_label_1045 == 0):
+                _st_label_1045 += 1
+                if UniversalOpExpr_1046():
+                    _st_label_1045 += 1
                 else:
-                    super()._label('_st_label_1036', block=True)
-                    _st_label_1036 -= 1
+                    super()._label('_st_label_1045', block=True)
+                    _st_label_1045 -= 1
             else:
-                if (_st_label_1036 != 2):
+                if (_st_label_1045 != 2):
                     continue
-            if (_st_label_1036 != 2):
+            if (_st_label_1045 != 2):
                 break
             self.send(('done',), to=psPMine)
             self.output(((((('Running iteration ' + str(i)) + ' for orig.da implementation with processes ') + str(numOfProcesses)) + ' and requests ') + str(numOfRequests)))
@@ -362,27 +365,27 @@ class Node_(da.NodeProcess):
             for p in psOrig:
                 self._setup(p, ((psOrig - {p}), numOfRequests))
             self._start(psOrig)
-            super()._label('_st_label_1107', block=False)
+            super()._label('_st_label_1116', block=False)
             p = None
 
-            def UniversalOpExpr_1108():
+            def UniversalOpExpr_1117():
                 nonlocal p
                 for p in psOrig:
-                    if (not PatternExpr_1121.match_iter(self._Node_ReceivedEvent_1, _BoundPattern1131_=p)):
+                    if (not PatternExpr_1130.match_iter(self._Node_ReceivedEvent_1, _BoundPattern1140_=p)):
                         return False
                 return True
-            _st_label_1107 = 0
-            while (_st_label_1107 == 0):
-                _st_label_1107 += 1
-                if UniversalOpExpr_1108():
-                    _st_label_1107 += 1
+            _st_label_1116 = 0
+            while (_st_label_1116 == 0):
+                _st_label_1116 += 1
+                if UniversalOpExpr_1117():
+                    _st_label_1116 += 1
                 else:
-                    super()._label('_st_label_1107', block=True)
-                    _st_label_1107 -= 1
+                    super()._label('_st_label_1116', block=True)
+                    _st_label_1116 -= 1
             else:
-                if (_st_label_1107 != 2):
+                if (_st_label_1116 != 2):
                     continue
-            if (_st_label_1107 != 2):
+            if (_st_label_1116 != 2):
                 break
             self.send(('done',), to=psOrig)
             self.output(((((('Running iteration ' + str(i)) + ' for spec.da implementation with processes ') + str(numOfProcesses)) + ' and requests ') + str(numOfRequests)))
@@ -390,26 +393,26 @@ class Node_(da.NodeProcess):
             for p in psSpec:
                 self._setup(p, ((psSpec - {p}), numOfRequests))
             self._start(psSpec)
-            super()._label('_st_label_1178', block=False)
+            super()._label('_st_label_1187', block=False)
             p = None
 
-            def UniversalOpExpr_1179():
+            def UniversalOpExpr_1188():
                 nonlocal p
                 for p in psSpec:
-                    if (not PatternExpr_1192.match_iter(self._Node_ReceivedEvent_2, _BoundPattern1202_=p)):
+                    if (not PatternExpr_1201.match_iter(self._Node_ReceivedEvent_2, _BoundPattern1211_=p)):
                         return False
                 return True
-            _st_label_1178 = 0
-            while (_st_label_1178 == 0):
-                _st_label_1178 += 1
-                if UniversalOpExpr_1179():
-                    _st_label_1178 += 1
+            _st_label_1187 = 0
+            while (_st_label_1187 == 0):
+                _st_label_1187 += 1
+                if UniversalOpExpr_1188():
+                    _st_label_1187 += 1
                 else:
-                    super()._label('_st_label_1178', block=True)
-                    _st_label_1178 -= 1
+                    super()._label('_st_label_1187', block=True)
+                    _st_label_1187 -= 1
             else:
-                if (_st_label_1178 != 2):
+                if (_st_label_1187 != 2):
                     continue
-            if (_st_label_1178 != 2):
+            if (_st_label_1187 != 2):
                 break
             self.send(('done',), to=psSpec)
