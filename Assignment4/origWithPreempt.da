@@ -1,0 +1,436 @@
+import sys
+import time
+import json
+import csv
+import random
+from random import randint
+controller = import_da('controller')
+import statistics
+import matplotlib.pyplot as plt
+import pandas as pd
+
+class Proposer(process, controller.Controllee):
+    def setup(ctl, acceptors:set, lossrate, messagedelaytime, waittime, timeouttime):
+        super().setup(ctl)
+        self.n = None              # proposal number
+        self.majority = acceptors  # majority of acceptors; all in other papers
+        self.lossrate = lossrate
+        self.delayTime = messagedelaytime
+        self.waittime = waittime
+        self.timeouttime  = timeouttime
+        self.MessageCount = 0
+
+    def to_consent():
+        time.sleep(delayTime)
+        n = (0, self) if n == None else (n[0]+1, self)  # pick a prop num
+        
+        if lossrate == MessageCount and lossrate !=0:
+            output(lossrate)
+            output("Skipping this message")
+            MessageCount = 0
+        else:
+            send(('prepare', n), to= majority)
+            MessageCount+=1
+
+        if await(len(setof(a, received(('respond', _n, _), from_ =a)))
+                 > len(acceptors)/2):
+            v = anyof(setof(v, received(('respond', _n, (n2, v))),
+                            n2==max(setof(n2, received(('respond', _n, (n2, _))))))
+                      or {randint(1,100)})  # any value, pick in 1..100
+            responded = setof(a, received(('respond', _n, _), from_ =a))
+            time.sleep(delayTime)
+            if lossrate == MessageCount and lossrate !=0:
+                output("Skipping this message")
+                MessageCount = 0
+            else:
+                send(('accept', n, v), to= responded)
+                MessageCount+=1
+            debug('### chose', n, v)
+
+        elif timeout(timeouttime):
+            output('failed proposal number', n)
+        
+        elif some(received(('preempt',nnew)), has= nnew> n):
+            n = nnew
+
+    @controller.run
+    def run():
+        while not received(('done',)):
+            to_consent()
+            time.sleep(waittime)
+        output('terminating')
+
+    def anyof(s):
+        return next(iter(s)) if s else None
+
+
+@controller.rugroup('bo_measured')
+class Acceptor(process, controller.Controllee):
+    def setup(ctl,learners:set, lossrate, messagedelaytime):
+        super().setup(ctl)
+        self.lossrate = lossrate
+        self.delayTime = messagedelaytime
+        self.MessageCount = -1
+        
+
+    def receive(msg= ('prepare', n), from_= p):
+        if each(sent(('respond', n2, _)), has= n > n2):
+            maxprop = anyof(setof((n, v), sent(('accepted', n, v)),
+                               n==max(setof(n, sent(('accepted', n, _))))))
+            if lossrate == MessageCount  and lossrate !=0:
+                output("Skipping this message")
+                MessageCount = 0
+            else:
+                send(('respond', n, maxprop), to =p)
+                MessageCount+=1
+        else:
+            npreempt = max(setof(n2 , sent(('respond', n2, _))))
+            send(('preempt', npreempt), to =p)
+
+    def receive(msg= ('accept', n, v)):
+        
+        if not some(sent(('respond', n2, _)), has= n2 > n):
+            time.sleep(delayTime)
+            if lossrate == MessageCount and lossrate !=0:
+                output("Skipping this message")
+                MessageCount = 0
+            else:
+                send(('accepted', n, v), to= learners)
+                MessageCount+=1
+
+    @controller.run
+    def run():
+        await(received(('done',)))
+        output('terminating')
+
+    def anyof(s):
+        """return any element of set s if s is not empty or 'None' otherwise"""
+        return next(iter(s)) if s else None
+
+class Learner(process, controller.Controllee):
+    def setup(ctl, acceptors:set, timeouttime):
+        super().setup(ctl)
+        self.timeouttime = timeouttime
+        self.learntvalue = -1 
+
+    def learn():
+        if await(some(received(('accepted', n, v)),
+                      has= len(setof(a, received(('accepted', _n, _v), from_=a)))
+                           > len(acceptors)/2)):
+            output('learned', n, v)
+            self.learntvalue = v
+
+        elif timeout(timeouttime):
+            output('failed learning anything')
+
+    @controller.run
+    def run():
+        learn()
+        output('terminating')
+        send(('correctnessinfo', learntvalue), to=nodeof(self))
+        send(('learned', ), to=nodeof(self))
+
+def drawgraph(filename, xcoord, y1coord, y2coord, destfilename):
+    
+    csvfile = pd.read_csv(filename, nrows=None)
+
+    x = csvfile[xcoord]
+    y1 = csvfile[y1coord]
+    y2 = csvfile[y2coord]
+    
+    fig, y1config = plt.subplots(figsize=(20,10))
+    y1config.plot(x, y1, 'k')
+    y1config.set_xlabel(xcoord)
+    y1config.set_ylabel(y1coord, color='k')
+    y1config.tick_params('y', colors='k')
+
+    y2config = y1config.twinx()
+    y2config.plot(x, y2, 'g')
+    y2config.set_ylabel(y2coord, color='g')
+    y2config.tick_params('y', colors='g')
+    
+    fig.tight_layout()
+    fig.savefig(destfilename)
+    plt.close(fig)
+
+def main():
+    nacceptors = int(sys.argv[1]) if len(sys.argv) > 1 else 3
+    nproposers = int(sys.argv[2]) if len(sys.argv) > 2 else 3
+    nlearners = int(sys.argv[3]) if len(sys.argv) > 3 else 3
+    nrepititions = int(sys.argv[4]) if len(sys.argv) > 4 else 1
+    lossrate = float(sys.argv[5]) if len(sys.argv) > 5 else 0
+    messagedelaytime = int(sys.argv[6]) if len(sys.argv) > 6 else 0
+    waittime = int(sys.argv[7]) if len(sys.argv) > 7 else 0
+    timeoutproposer = int(sys.argv[8]) if len(sys.argv) > 8 else 1
+    timeoutlearner = int(sys.argv[9]) if len(sys.argv) > 9 else 10
+    
+    runCount=0
+
+
+    if lossrate != 0:
+        output(lossrate)
+        #Varying values of message loss info
+        filemessagelossinfo = open('messagelossinfo.csv','a+')
+        writer = csv.writer(filemessagelossinfo)
+
+        filemesssagelossinfoconcise = open('messagelossinfoconcise.csv','a+')
+        writerconcise = csv.writer(filemesssagelossinfoconcise)
+
+        writerconcise.writerow(["Message Loss Value","Average CPU Time","Average Elapsed Time", "Standard Deviation CPU Time", "Standard Deviation Elapsed Time", "Range Elapsed Time", "Range CPU Time"])
+        
+        factor = lossrate/5
+        selectedlossrate =0
+
+        for j in range(5):
+            selectedlossrate = selectedlossrate +factor
+            data=[]
+            learntvalue = []
+            for i in range(nrepititions):
+                itrleantValue = []
+                runCount +=1
+                ctl = new(controller.Controller, num= 1)
+                setup(ctl, (nacceptors + nproposers + nlearners,))
+                start(ctl)
+                acceptors = new(Acceptor, num= nacceptors)
+                proposers = new(Proposer, (ctl, acceptors, 1/selectedlossrate, messagedelaytime, waittime, timeoutproposer,), num= nproposers)
+                learners = new(Learner, (ctl, acceptors, timeoutlearner,), num= nlearners)
+                for p in acceptors:
+                    setup(p, (ctl, learners, 1/selectedlossrate, messagedelaytime, ))
+                start(acceptors | proposers | learners)
+
+                await(each(l in learners, has=received(('learned',), from_=l)))
+
+                for l in learners:
+                    itrleantValue.append(list(setof(val, received(('correctnessinfo',val), from_=a) , a == l ))[0])
+                learntvalue.append(itrleantValue)
+
+                send(('done',), to= (acceptors|proposers))
+                send(('requestperfdata', runCount), to= ctl)
+                if await(some(received(('responseperfdata', info, itr), from_ = ctl), has= runCount==itr)):
+                    data.append(info)
+        
+            writer.writerow([])
+            writer.writerow([])
+
+            writer.writerow(["Message Loss Rate", "Message Delay", "Wait Time", "Timeout Proposer", "Timeout Learner" ])
+            writer.writerow([selectedlossrate, messagedelaytime, waittime, timeoutproposer, timeoutlearner])
+            writer.writerow(["CPU Time", "Elapsed Time", "Learnt Value", "Timeout"])
+
+            timeoutVal = []
+            lstlearntvalue = []
+            for learntVal in learntvalue:
+                val = learntVal[0]
+                for vals in learntVal:
+                    if vals is -1:
+                        lstlearntvalue.append(val)
+                        timeoutVal.append(True)
+                        break
+                    else:
+                        timeoutVal.append(False)
+                        lstlearntvalue.append(vals)
+                        break
+            i=0;
+            for item in data:
+                item.append(lstlearntvalue[i])
+                item.append(timeoutVal[i])
+                i +=1
+                writer.writerow(item)
+
+            listcputime = [item[0] for item in data]
+            listelapsedtime = [item[1] for item in data]
+
+            writer.writerow(["Average CPU Time","Average Elapsed Time", "Standard Deviation CPU Time", "Standard Deviation Elapsed Time", "Range Elapsed Time", "Range CPU Time"])
+            writer.writerow([1.0 * sum(listcputime)/len(listcputime), 1.0 * sum(listelapsedtime)/len(listelapsedtime) , statistics.stdev(listcputime), statistics.stdev(listelapsedtime), max(listcputime)-min(listcputime), max(listelapsedtime)-min(listelapsedtime) ])
+
+            writerconcise.writerow([ selectedlossrate, 1.0 * sum(listcputime)/len(listcputime), 1.0 * sum(listelapsedtime)/len(listelapsedtime) , statistics.stdev(listcputime), statistics.stdev(listelapsedtime), max(listcputime)-min(listcputime), max(listelapsedtime)-min(listelapsedtime) ])
+
+        filemessagelossinfo.close()
+        filemesssagelossinfoconcise.close()
+        drawgraph('messagelossinfoconcise.csv', 'Message Loss Value', 'Average CPU Time', 'Average Elapsed Time', 'messageloss.png')
+
+    if messagedelaytime is not 0:
+        #Varying values of message time
+        filemessagedelayinfo = open('messagedelayinfo.csv','a+')
+        writer = csv.writer(filemessagedelayinfo)
+        filemessagedelayinfoconcise = open('messagedelayinfoconcise.csv','a+')
+        writerconcise = csv.writer(filemessagedelayinfoconcise)
+
+        writerconcise.writerow(["Message Delay Value","Average CPU Time","Average Elapsed Time", "Standard Deviation CPU Time", "Standard Deviation Elapsed Time", "Range Elapsed Time", "Range CPU Time"])
+
+        factor = messagedelaytime/5
+        selectedmessagedelaytime =0
+        for j in range(5):
+            selectedmessagedelaytime = selectedmessagedelaytime + factor
+            data=[]
+            learntvalue = []
+            for i in range(nrepititions):
+                itrleantValue = []
+                runCount +=1
+                ctl = new(controller.Controller, num= 1)
+                setup(ctl, (nacceptors + nproposers + nlearners,))
+                start(ctl)
+                acceptors = new(Acceptor, num= nacceptors)
+                proposers = new(Proposer, (ctl, acceptors, int(lossrate), selectedmessagedelaytime, waittime, timeoutproposer,), num= nproposers)
+                learners = new(Learner, (ctl, acceptors, timeoutlearner,), num= nlearners)
+                for p in acceptors:
+                    setup(p, (ctl, learners, int(lossrate), selectedmessagedelaytime, ))
+                start(acceptors | proposers | learners)
+
+                await(each(l in learners, has=received(('learned',), from_=l)))
+
+                for l in learners:
+                    itrleantValue.append(list(setof(val, received(('correctnessinfo',val), from_=a) , a == l ))[0])
+                learntvalue.append(itrleantValue)
+
+                send(('done',), to= (acceptors|proposers))
+                send(('requestperfdata', runCount), to= ctl)
+                if await(some(received(('responseperfdata', info, itr), from_ = ctl), has= runCount==itr)):
+                    data.append(info)
+        
+            writer.writerow([])
+            writer.writerow([])
+
+            writer.writerow(["Message Loss Rate", "Message Delay", "Wait Time", "Timeout Proposer", "Timeout Learner" ])
+            writer.writerow([lossrate, selectedmessagedelaytime, waittime, timeoutproposer, timeoutlearner])
+            writer.writerow(["CPU Time", "Elapsed Time", "Learnt Value", "Timeout"])
+
+            timeoutVal = []
+            lstlearntvalue = []
+            for learntVal in learntvalue:
+                val = learntVal[0]
+                for vals in learntVal:
+                    if vals is -1:
+                        lstlearntvalue.append(val)
+                        timeoutVal.append(True)
+                    else:
+                        timeoutVal.append(False)
+                        lstlearntvalue.append(vals)
+            i=0;
+            for item in data:
+                item.append(lstlearntvalue[i])
+                item.append(timeoutVal[i])
+                i +=1
+                writer.writerow(item)
+
+            listcputime = [item[0] for item in data]
+            listelapsedtime = [item[1] for item in data]
+
+            writer.writerow(["Average CPU Time","Average Elapsed Time", "Standard Deviation CPU Time", "Standard Deviation Elapsed Time", "Range Elapsed Time", "Range CPU Time"])
+            writer.writerow([1.0 * sum(listcputime)/len(listcputime), 1.0 * sum(listelapsedtime)/len(listelapsedtime) , statistics.stdev(listcputime), statistics.stdev(listelapsedtime), max(listcputime)-min(listcputime), max(listelapsedtime)-min(listelapsedtime) ])
+
+            writerconcise.writerow([ selectedmessagedelaytime, 1.0 * sum(listcputime)/len(listcputime), 1.0 * sum(listelapsedtime)/len(listelapsedtime) , statistics.stdev(listcputime), statistics.stdev(listelapsedtime), max(listcputime)-min(listcputime), max(listelapsedtime)-min(listelapsedtime) ])
+        filemessagedelayinfo.close()
+        filemessagedelayinfoconcise.close()
+
+        drawgraph('messagedelayinfoconcise.csv', 'Message Delay Value', 'Average CPU Time', 'Average Elapsed Time', 'messagedelay.png')
+
+    if waittime is not 0:
+
+        #Varying values of wait time
+        filewaittimeinfo = open('waittimeinfo.csv','a+')
+        writer = csv.writer(filewaittimeinfo)
+        filewaittimeinfoconcise = open('filewaittimeinfoconcise.csv','a+')
+        writerconcise = csv.writer(filewaittimeinfoconcise)
+        writerconcise.writerow(["Wait Time Value","Average CPU Time","Average Elapsed Time", "Standard Deviation CPU Time", "Standard Deviation Elapsed Time", "Range Elapsed Time", "Range CPU Time"])
+
+        factor = waittime/5
+        selectedwaittime=0
+        for j in range(5):
+            selectedwaittime = selectedwaittime + factor
+            data=[]
+            learntvalue = []
+            for i in range(nrepititions):
+                itrleantValue = []
+                runCount +=1
+                ctl = new(controller.Controller, num= 1)
+                setup(ctl, (nacceptors + nproposers + nlearners,))
+                start(ctl)
+                acceptors = new(Acceptor, num= nacceptors)
+                proposers = new(Proposer, (ctl, acceptors, int(lossrate), messagedelaytime, selectedwaittime, timeoutproposer,), num= nproposers)
+                learners = new(Learner, (ctl, acceptors, timeoutlearner,), num= nlearners)
+                for p in acceptors:
+                    setup(p, (ctl, learners, int(lossrate), messagedelaytime, ))
+                start(acceptors | proposers | learners)
+
+                await(each(l in learners, has=received(('learned',), from_=l)))
+
+                for l in learners:
+                    itrleantValue.append(list(setof(val, received(('correctnessinfo',val), from_=a) , a == l ))[0])
+                learntvalue.append(itrleantValue)
+
+                send(('done',), to= (acceptors|proposers))
+                send(('requestperfdata', runCount), to= ctl)
+                if await(some(received(('responseperfdata', info, itr), from_ = ctl), has= runCount==itr)):
+                    data.append(info)
+        
+            writer.writerow([])
+            writer.writerow([])
+
+            writer.writerow(["Message Loss Rate", "Message Delay", "Wait Time", "Timeout Proposer", "Timeout Learner" ])
+            writer.writerow([lossrate, messagedelaytime, selectedwaittime, timeoutproposer, timeoutlearner])
+
+            writer.writerow(["CPU Time", "Elapsed Time", "Learnt Value", "Timeout"])
+
+
+            timeoutVal = []
+            lstlearntvalue = []
+            for learntVal in learntvalue:
+                val = learntVal[0]
+                for vals in learntVal:
+                    if vals is -1:
+                        lstlearntvalue.append(val)
+                        timeoutVal.append(True)
+                    else:
+                        timeoutVal.append(False)
+                        lstlearntvalue.append(vals)
+            i=0;
+            for item in data:
+                item.append(lstlearntvalue[i])
+                item.append(timeoutVal[i])
+                i +=1
+                writer.writerow(item)
+
+            listcputime = [item[0] for item in data]
+            listelapsedtime = [item[1] for item in data]
+
+            writer.writerow(["Average CPU Time","Average Elapsed Time", "Standard Deviation CPU Time", "Standard Deviation Elapsed Time", "Range Elapsed Time", "Range CPU Time"])
+            writer.writerow([1.0 * sum(listcputime)/len(listcputime), 1.0 * sum(listelapsedtime)/len(listelapsedtime) , statistics.stdev(listcputime), statistics.stdev(listelapsedtime), max(listcputime)-min(listcputime), max(listelapsedtime)-min(listelapsedtime) ])
+            writerconcise.writerow([ selectedwaittime, 1.0 * sum(listcputime)/len(listcputime), 1.0 * sum(listelapsedtime)/len(listelapsedtime) , statistics.stdev(listcputime), statistics.stdev(listelapsedtime), max(listcputime)-min(listcputime), max(listelapsedtime)-min(listelapsedtime) ])
+        
+        filewaittimeinfo.close()
+        filewaittimeinfoconcise.close()
+
+        drawgraph('filewaittimeinfoconcise.csv', 'Wait Time Value', 'Average CPU Time', 'Average Elapsed Time', 'waittime.png')
+
+    if lossrate==0 and waittime==0 and messagedelaytime==0:
+        data=[]
+        for i in range(nrepititions):
+                itrleantValue = []
+                ctl = new(controller.Controller, num= 1)
+                setup(ctl, (nacceptors + nproposers + nlearners,))
+                start(ctl)
+                acceptors = new(Acceptor, num= nacceptors)
+                proposers = new(Proposer, (ctl, acceptors, int(lossrate), messagedelaytime, waittime, timeoutproposer,), num= nproposers)
+                learners = new(Learner, (ctl, acceptors, timeoutlearner,), num= nlearners)
+                for p in acceptors:
+                    setup(p, (ctl, learners, int(lossrate), messagedelaytime, ))
+                start(acceptors | proposers | learners)
+
+                await(each(l in learners, has=received(('learned',), from_=l)))
+
+                for l in learners:
+                    itrleantValue.append(list(setof(val, received(('correctnessinfo',val), from_=a) , a == l ))[0])
+                output('done')
+                send(('done',), to= (acceptors|proposers))
+
+                send(('requestperfdata', runCount), to= ctl)
+                if await(some(received(('responseperfdata', info, itr), from_ = ctl), has= runCount==itr)):
+                    data.append(info)
+                
+
+# This is an executable specification of the algorithm described in
+# Lamport, L. (2001).  Paxos Made Simple.  ACM SIGACT News 
+# (Distributed Computing Column), 32(4):51-58, December.
+
+# This code includes setup and termination for running repeated rounds until
+# the learners all terminate after learning the consent value or timeout.
