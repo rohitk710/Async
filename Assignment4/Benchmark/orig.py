@@ -34,8 +34,8 @@ class Proposer(controller.Controllee, da.DistProcess):
         self._ProposerReceivedEvent_4 = []
         self._events.extend([da.pat.EventPattern(da.pat.ReceivedEvent, '_ProposerReceivedEvent_0', PatternExpr_229, sources=[PatternExpr_236], destinations=None, timestamps=None, record_history=True, handlers=[]), da.pat.EventPattern(da.pat.ReceivedEvent, '_ProposerReceivedEvent_1', PatternExpr_264, sources=None, destinations=None, timestamps=None, record_history=True, handlers=[]), da.pat.EventPattern(da.pat.ReceivedEvent, '_ProposerReceivedEvent_2', PatternExpr_295, sources=None, destinations=None, timestamps=None, record_history=True, handlers=[]), da.pat.EventPattern(da.pat.ReceivedEvent, '_ProposerReceivedEvent_3', PatternExpr_331, sources=[PatternExpr_338], destinations=None, timestamps=None, record_history=True, handlers=[]), da.pat.EventPattern(da.pat.ReceivedEvent, '_ProposerReceivedEvent_4', PatternExpr_374, sources=None, destinations=None, timestamps=None, record_history=True, handlers=[])])
 
-    def setup(self, ctl, acceptors, timeout, **rest_827):
-        super().setup(ctl=ctl, acceptors=acceptors, timeout=timeout, **rest_827)
+    def setup(self, ctl, acceptors, timeout, **rest_939):
+        super().setup(ctl=ctl, acceptors=acceptors, timeout=timeout, **rest_939)
         self._state.ctl = ctl
         self._state.acceptors = acceptors
         self._state.timeout = timeout
@@ -82,8 +82,8 @@ class Acceptor(controller.Controllee, da.DistProcess):
         self._AcceptorSentEvent_5 = []
         self._events.extend([da.pat.EventPattern(da.pat.ReceivedEvent, '_AcceptorReceivedEvent_0', PatternExpr_429, sources=[PatternExpr_436], destinations=None, timestamps=None, record_history=None, handlers=[self._Acceptor_handler_428]), da.pat.EventPattern(da.pat.SentEvent, '_AcceptorSentEvent_1', PatternExpr_442, sources=None, destinations=None, timestamps=None, record_history=True, handlers=[]), da.pat.EventPattern(da.pat.SentEvent, '_AcceptorSentEvent_2', PatternExpr_471, sources=None, destinations=None, timestamps=None, record_history=True, handlers=[]), da.pat.EventPattern(da.pat.SentEvent, '_AcceptorSentEvent_3', PatternExpr_497, sources=None, destinations=None, timestamps=None, record_history=True, handlers=[]), da.pat.EventPattern(da.pat.ReceivedEvent, '_AcceptorReceivedEvent_4', PatternExpr_532, sources=None, destinations=None, timestamps=None, record_history=None, handlers=[self._Acceptor_handler_531]), da.pat.EventPattern(da.pat.SentEvent, '_AcceptorSentEvent_5', PatternExpr_545, sources=None, destinations=None, timestamps=None, record_history=True, handlers=[])])
 
-    def setup(self, ctl, learners, **rest_827):
-        super().setup(ctl=ctl, learners=learners, **rest_827)
+    def setup(self, ctl, learners, **rest_939):
+        super().setup(ctl=ctl, learners=learners, **rest_939)
         self._state.ctl = ctl
         self._state.learners = learners
         super().setup(self._state.ctl)
@@ -135,8 +135,8 @@ class Learner(controller.Controllee, da.DistProcess):
         self._LearnerReceivedEvent_1 = []
         self._events.extend([da.pat.EventPattern(da.pat.ReceivedEvent, '_LearnerReceivedEvent_0', PatternExpr_623, sources=None, destinations=None, timestamps=None, record_history=True, handlers=[]), da.pat.EventPattern(da.pat.ReceivedEvent, '_LearnerReceivedEvent_1', PatternExpr_649, sources=[PatternExpr_656], destinations=None, timestamps=None, record_history=True, handlers=[])])
 
-    def setup(self, ctl, acceptors, proposer, timeout, **rest_827):
-        super().setup(ctl=ctl, acceptors=acceptors, proposer=proposer, timeout=timeout, **rest_827)
+    def setup(self, ctl, acceptors, proposer, timeout, **rest_939):
+        super().setup(ctl=ctl, acceptors=acceptors, proposer=proposer, timeout=timeout, **rest_939)
         self._state.ctl = ctl
         self._state.acceptors = acceptors
         self._state.proposer = proposer
@@ -150,10 +150,10 @@ class Learner(controller.Controllee, da.DistProcess):
 
     def learn(self):
         super()._label('_st_label_620', block=False)
-        v = n = a = None
+        v = a = n = None
 
         def ExistentialOpExpr_621():
-            nonlocal v, n, a
+            nonlocal v, a, n
             for (_, _, (_ConstantPattern640_, n, v)) in self._LearnerReceivedEvent_0:
                 if (_ConstantPattern640_ == 'accepted'):
                     if (len({a for (_, (_, _, a), (_ConstantPattern667_, _BoundPattern669_, _BoundPattern670_)) in self._LearnerReceivedEvent_1 if (_ConstantPattern667_ == 'accepted') if (_BoundPattern669_ == n) if (_BoundPattern670_ == v)}) > (len(self._state.acceptors) / 2)):
@@ -182,7 +182,14 @@ class Node_(da.NodeProcess):
     def run(self):
         nacceptors = (int(sys.argv[1]) if (len(sys.argv) > 1) else 3)
         nproposers = (int(sys.argv[2]) if (len(sys.argv) > 2) else 3)
-        timeout = (int(sys.argv[3]) if (len(sys.argv) > 3) else 1)
+        nlearner = (int(sys.argv[3]) if (len(sys.argv) > 3) else 3)
+        nrepititions = (int(sys.argv[4]) if (len(sys.argv) > 4) else 3)
+        lossrate = (int(sys.argv[5]) if (len(sys.argv) > 5) else 3)
+        messagedelay = (int(sys.argv[6]) if (len(sys.argv) > 6) else 3)
+        waittime = (int(sys.argv[7]) if (len(sys.argv) > 7) else 3)
+        timeoutproposer = (int(sys.argv[8]) if (len(sys.argv) > 8) else 3)
+        timeoutlearner = (int(sys.argv[9]) if (len(sys.argv) > 9) else 3)
+        timeout = (int(sys.argv[10]) if (len(sys.argv) > 10) else 1)
         ctl = self.new(controller.Controller, num=1)
         self._setup(ctl, ((nacceptors + (nproposers * 2)),))
         self._start(ctl)

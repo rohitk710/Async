@@ -50,6 +50,9 @@ class Proposer(process, controller.Controllee):
         elif timeout(timeouttime):
             output('failed proposal number', n)
         
+        elif some(received(('preempt',nnew)), has= nnew> n):
+            n = nnew
+
     @controller.run
     def run():
         while not received(('done',)):
@@ -80,6 +83,9 @@ class Acceptor(process, controller.Controllee):
             else:
                 send(('respond', n, maxprop), to =p)
                 MessageCount+=1
+        else:
+            npreempt = max(setof(n2 , sent(('respond', n2, _))))
+            send(('preempt', npreempt), to =p)
 
     def receive(msg= ('accept', n, v)):
         

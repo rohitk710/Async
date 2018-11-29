@@ -89,6 +89,7 @@ before exiting.
 import sys
 import time
 import json
+import csv
 from itertools import chain
 
 
@@ -233,7 +234,21 @@ class Controller(process):
         jsondata['Wallclock_time'] = t2 - t1
         jsonoutput = json.dumps(jsondata)
         print("###OUTPUT: " + jsonoutput)
-        
+
+        jsondatainfo = json.dumps(jsondata['All'])
+        jsonwallclockinfo = json.dumps(jsondata['Wallclock_time'])
+
+        listmetricinfo = []
+
+        datainfolist = json.loads(jsondatainfo)
+        wallclockinfolist = json.loads(jsonwallclockinfo)
+
+        totalprocesstime = datainfolist['Total_process_time']
+        listmetricinfo.append(totalprocesstime)
+        listmetricinfo.append(wallclockinfolist)
+
+        if await (some(received(('requestperfdata', i,)))):
+            send(('responseperfdata',listmetricinfo, i), to= nodeof(self))
         time.sleep(1)
 
 class Controllee(process):
