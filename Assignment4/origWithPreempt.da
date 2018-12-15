@@ -18,16 +18,14 @@ class Proposer(process, controller.Controllee):
         self.delayTime = messagedelaytime
         self.waittime = waittime
         self.timeouttime  = timeouttime
-        self.MessageCount = 0
+        self.MessageCount = 1
 
     def to_consent():
         time.sleep(delayTime)
         n = (0, self) if n == None else (n[0]+1, self)  # pick a prop num
-        
-        if lossrate == MessageCount and lossrate !=0:
-            output(lossrate)
+        if lossrate!=0.0 and lossrate < MessageCount:
             output("Skipping this message")
-            MessageCount = 0
+            MessageCount = 1
         else:
             send(('prepare', n), to= majority)
             MessageCount+=1
@@ -39,9 +37,9 @@ class Proposer(process, controller.Controllee):
                       or {randint(1,100)})  # any value, pick in 1..100
             responded = setof(a, received(('respond', _n, _), from_ =a))
             time.sleep(delayTime)
-            if lossrate == MessageCount and lossrate !=0:
+            if lossrate!=0.0 and  lossrate < MessageCount:
                 output("Skipping this message")
-                MessageCount = 0
+                MessageCount = 1
             else:
                 send(('accept', n, v), to= responded)
                 MessageCount+=1
@@ -49,9 +47,9 @@ class Proposer(process, controller.Controllee):
 
         elif timeout(timeouttime):
             output('failed proposal number', n)
-        
         elif some(received(('preempt',nnew)), has= nnew> n):
             n = nnew
+
 
     @controller.run
     def run():
@@ -70,16 +68,16 @@ class Acceptor(process, controller.Controllee):
         super().setup(ctl)
         self.lossrate = lossrate
         self.delayTime = messagedelaytime
-        self.MessageCount = -1
+        self.MessageCount = 1
         
 
     def receive(msg= ('prepare', n), from_= p):
         if each(sent(('respond', n2, _)), has= n > n2):
             maxprop = anyof(setof((n, v), sent(('accepted', n, v)),
                                n==max(setof(n, sent(('accepted', n, _))))))
-            if lossrate == MessageCount  and lossrate !=0:
+            if lossrate!=0.0 and  lossrate < MessageCount:
                 output("Skipping this message")
-                MessageCount = 0
+                MessageCount = 1
             else:
                 send(('respond', n, maxprop), to =p)
                 MessageCount+=1
@@ -91,9 +89,9 @@ class Acceptor(process, controller.Controllee):
         
         if not some(sent(('respond', n2, _)), has= n2 > n):
             time.sleep(delayTime)
-            if lossrate == MessageCount and lossrate !=0:
+            if lossrate!=0.0 and lossrate < MessageCount:
                 output("Skipping this message")
-                MessageCount = 0
+                MessageCount = 1
             else:
                 send(('accepted', n, v), to= learners)
                 MessageCount+=1
@@ -161,14 +159,13 @@ def main():
     lossrate = float(sys.argv[5]) if len(sys.argv) > 5 else 0
     messagedelaytime = int(sys.argv[6]) if len(sys.argv) > 6 else 0
     waittime = int(sys.argv[7]) if len(sys.argv) > 7 else 0
-    timeoutproposer = int(sys.argv[8]) if len(sys.argv) > 8 else 1
+    timeoutproposer = int(sys.argv[8]) if len(sys.argv) > 8 else 10
     timeoutlearner = int(sys.argv[9]) if len(sys.argv) > 9 else 10
     
     runCount=0
 
 
-    if lossrate != 0:
-        output(lossrate)
+    if lossrate != 0.0:
         #Varying values of message loss info
         filemessagelossinfo = open('messagelossinfo.csv','a+')
         writer = csv.writer(filemessagelossinfo)
@@ -248,7 +245,7 @@ def main():
         filemesssagelossinfoconcise.close()
         drawgraph('messagelossinfoconcise.csv', 'Message Loss Value', 'Average CPU Time', 'Average Elapsed Time', 'messageloss.png')
 
-    if messagedelaytime is not 0:
+    if messagedelaytime!=0:
         #Varying values of message time
         filemessagedelayinfo = open('messagedelayinfo.csv','a+')
         writer = csv.writer(filemessagedelayinfo)
@@ -270,10 +267,10 @@ def main():
                 setup(ctl, (nacceptors + nproposers + nlearners,))
                 start(ctl)
                 acceptors = new(Acceptor, num= nacceptors)
-                proposers = new(Proposer, (ctl, acceptors, int(lossrate), selectedmessagedelaytime, waittime, timeoutproposer,), num= nproposers)
+                proposers = new(Proposer, (ctl, acceptors, lossrate, selectedmessagedelaytime, waittime, timeoutproposer,), num= nproposers)
                 learners = new(Learner, (ctl, acceptors, timeoutlearner,), num= nlearners)
                 for p in acceptors:
-                    setup(p, (ctl, learners, int(lossrate), selectedmessagedelaytime, ))
+                    setup(p, (ctl, learners, lossrate, selectedmessagedelaytime, ))
                 start(acceptors | proposers | learners)
 
                 await(each(l in learners, has=received(('learned',), from_=l)))
@@ -324,8 +321,7 @@ def main():
 
         drawgraph('messagedelayinfoconcise.csv', 'Message Delay Value', 'Average CPU Time', 'Average Elapsed Time', 'messagedelay.png')
 
-    if waittime is not 0:
-
+    if waittime != 0:
         #Varying values of wait time
         filewaittimeinfo = open('waittimeinfo.csv','a+')
         writer = csv.writer(filewaittimeinfo)
@@ -346,10 +342,10 @@ def main():
                 setup(ctl, (nacceptors + nproposers + nlearners,))
                 start(ctl)
                 acceptors = new(Acceptor, num= nacceptors)
-                proposers = new(Proposer, (ctl, acceptors, int(lossrate), messagedelaytime, selectedwaittime, timeoutproposer,), num= nproposers)
+                proposers = new(Proposer, (ctl, acceptors, lossrate, messagedelaytime, selectedwaittime, timeoutproposer,), num= nproposers)
                 learners = new(Learner, (ctl, acceptors, timeoutlearner,), num= nlearners)
                 for p in acceptors:
-                    setup(p, (ctl, learners, int(lossrate), messagedelaytime, ))
+                    setup(p, (ctl, learners, lossrate, messagedelaytime, ))
                 start(acceptors | proposers | learners)
 
                 await(each(l in learners, has=received(('learned',), from_=l)))
@@ -402,7 +398,8 @@ def main():
 
         drawgraph('filewaittimeinfoconcise.csv', 'Wait Time Value', 'Average CPU Time', 'Average Elapsed Time', 'waittime.png')
 
-    if lossrate==0 and waittime==0 and messagedelaytime==0:
+    if lossrate == 0.0 and waittime == 0 and messagedelaytime == 0:
+        output ("no where")
         data=[]
         for i in range(nrepititions):
                 itrleantValue = []
@@ -410,10 +407,10 @@ def main():
                 setup(ctl, (nacceptors + nproposers + nlearners,))
                 start(ctl)
                 acceptors = new(Acceptor, num= nacceptors)
-                proposers = new(Proposer, (ctl, acceptors, int(lossrate), messagedelaytime, waittime, timeoutproposer,), num= nproposers)
+                proposers = new(Proposer, (ctl, acceptors, lossrate, messagedelaytime, waittime, timeoutproposer,), num= nproposers)
                 learners = new(Learner, (ctl, acceptors, timeoutlearner,), num= nlearners)
                 for p in acceptors:
-                    setup(p, (ctl, learners, int(lossrate), messagedelaytime, ))
+                    setup(p, (ctl, learners, lossrate, messagedelaytime, ))
                 start(acceptors | proposers | learners)
 
                 await(each(l in learners, has=received(('learned',), from_=l)))

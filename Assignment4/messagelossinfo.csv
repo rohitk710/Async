@@ -1,0 +1,45 @@
+
+
+Message Loss Rate,Message Delay,Wait Time,Timeout Proposer,Timeout Learner
+0.16,0,0,10,10
+CPU Time,Elapsed Time,Learnt Value,Timeout
+0.058463999999999995,10.01498716599599,33,False
+0.06068799999999999,10.011077892995672,14,False
+Average CPU Time,Average Elapsed Time,Standard Deviation CPU Time,Standard Deviation Elapsed Time,Range Elapsed Time,Range CPU Time
+0.05957599999999999,10.013032529495831,0.0015726054813588793,0.0027642734480340736,0.002223999999999997,0.003909273000317626
+
+
+Message Loss Rate,Message Delay,Wait Time,Timeout Proposer,Timeout Learner
+0.32,0,0,10,10
+CPU Time,Elapsed Time,Learnt Value,Timeout
+0.054620999999999996,10.010404964006739,49,False
+0.058699999999999995,10.012379013001919,9,False
+Average CPU Time,Average Elapsed Time,Standard Deviation CPU Time,Standard Deviation Elapsed Time,Range Elapsed Time,Range CPU Time
+0.056660499999999996,10.011391988504329,0.0028842885604599268,0.0013958634308863075,0.004078999999999999,0.0019740489951800555
+
+
+Message Loss Rate,Message Delay,Wait Time,Timeout Proposer,Timeout Learner
+0.48,0,0,10,10
+CPU Time,Elapsed Time,Learnt Value,Timeout
+0.047860999999999994,10.014972238001064,-1,True
+0.031553000000000005,10.009145618998446,33,False
+Average CPU Time,Average Elapsed Time,Standard Deviation CPU Time,Standard Deviation Elapsed Time,Range Elapsed Time,Range CPU Time
+0.039707,10.012058928499755,0.011531497387590208,0.004120041808142171,0.01630799999999999,0.005826619002618827
+
+
+Message Loss Rate,Message Delay,Wait Time,Timeout Proposer,Timeout Learner
+0.64,0,0,10,10
+CPU Time,Elapsed Time,Learnt Value,Timeout
+0.041902999999999996,20.01112470800581,-1,True
+0.030184000000000002,20.010059926004033,-1,True
+Average CPU Time,Average Elapsed Time,Standard Deviation CPU Time,Standard Deviation Elapsed Time,Range Elapsed Time,Range CPU Time
+0.0360435,20.01059231700492,0.008286584368725146,0.000752914573941635,0.011718999999999993,0.0010647820017766207
+
+
+Message Loss Rate,Message Delay,Wait Time,Timeout Proposer,Timeout Learner
+0.8,0,0,10,10
+CPU Time,Elapsed Time,Learnt Value,Timeout
+0.04132999999999999,20.00887542498822,-1,True
+0.035619,20.009994521009503,-1,True
+Average CPU Time,Average Elapsed Time,Standard Deviation CPU Time,Standard Deviation Elapsed Time,Range Elapsed Time,Range CPU Time
+0.038474499999999995,20.00943497299886,0.004038286827356369,0.0007913203854490483,0.005710999999999994,0.0011190960212843493
